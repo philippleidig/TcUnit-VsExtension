@@ -9,8 +9,7 @@ namespace TcUnit_VsExtension
 {
     public class TestCaseFactory
     {
-        public static string TestCaseTemplate = @"
-TEST('{{TEST_NAME}}');
+        public static string TestCaseTemplate = @"TEST('{{TEST_NAME}}');
 
 // @TEST-FIXTURE
 
