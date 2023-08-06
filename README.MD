@@ -28,6 +28,17 @@ Visual Studio Extension for higher productivity when using TcUnit for unit testi
 
 ![add test case template](./assets/images/add-test-case-template.png)
 
+## PLC Project Template
+
+1. Copy the content from "./templates/TcUnit" to "C:\TwinCAT\3.1\Components\Plc\PlcTemplates\1.0.0.0\Plc Templates\TcUnit" on your engineering system
+2. Restart Visual Studio or TcXaeShell
+3. Add "TcUnit Template" as PLC project
+
+![add tcunit template](./assets/images/add-tcunit-plc-template.png)
+
+3. Basic setup for unit testing is already included in the template
+
+![tcunit template](./assets/images/tcunit-plc-template.png)
 
 ## License
 [MIT](./LICENSE.MD)
