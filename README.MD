@@ -26,5 +26,8 @@ Visual Studio Extension for higher productivity when using TcUnit for unit testi
 
 ![add test case result](./assets/images/add-test-case-result.png)
 
+![add test case template](./assets/images/add-test-case-template.png)
+
+
 ## License
-[MIT](https://choosealicense.com/licenses/mit/)
+[MIT](./LICENSE.MD)
