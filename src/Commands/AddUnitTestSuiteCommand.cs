@@ -1,20 +1,14 @@
 ﻿using System;
 using System.ComponentModel.Design;
-using System.Globalization;
-using System.Threading;
-using System.Threading.Tasks;
+
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 using TCatSysManagerLib;
 using TcUnit_VsExtension.Dialogs;
 using Task = System.Threading.Tasks.Task;
 
 namespace TcUnit_VsExtension.Commands
 {
-    /// <summary>
-    /// Command handler
-    /// </summary>
     internal sealed class AddUnitTestSuiteCommand
     {
         public const int CommandId = PackageIds.AddUnitTestSuiteCommandId;
@@ -23,6 +17,7 @@ namespace TcUnit_VsExtension.Commands
         private readonly AsyncPackage package;
         private readonly TestSuiteFactory testSuiteFactory;
 
+        private readonly EnvDTE.DTE dte;
         private AddUnitTestSuiteCommand(AsyncPackage package, OleMenuCommandService commandService)
         {
             this.package = package ?? throw new ArgumentNullException(nameof(package));
@@ -32,6 +27,8 @@ namespace TcUnit_VsExtension.Commands
             var menuItem = new OleMenuCommand(this.Execute, menuCommandID);
             menuItem.BeforeQueryStatus += new EventHandler(OnBeforeQueryStatus);
             commandService.AddCommand(menuItem);
+
+            dte = Package.GetGlobalService(typeof(DTE)) as DTE;
 
             testSuiteFactory = new TestSuiteFactory();
         }
@@ -51,36 +48,33 @@ namespace TcUnit_VsExtension.Commands
             var command = sender as OleMenuCommand;
             if (null != command)
             {
-
                 command.Visible = false;
-
-                DTE dte = Package.GetGlobalService(typeof(DTE)) as DTE;
-
-                var selectedItem = dte?.SelectedItems?.Item(1)?.ProjectItem;
-
-                if(selectedItem == null)
-                {
-                    return;
-                }
-
-                if (!(selectedItem?.Object is ITcSmTreeItem))
-                {
-                    return;
-                }
-
-                var treeItem = selectedItem.Object as ITcSmTreeItem;
-
-                var isFolder = treeItem.ItemType == (int)TCatSysManagerLib.TREEITEMTYPES.TREEITEMTYPE_PLCAPP
-                    || treeItem.ItemType == (int)TCatSysManagerLib.TREEITEMTYPES.TREEITEMTYPE_PLCFOLDER;
-
-                command.Visible = isFolder;
+                ProjectItem selectedItem = dte?.SelectedItems?.Item(1)?.ProjectItem;
+                command.Visible = CanAddTcUnitTestSuite(selectedItem);
             }
+        }
+
+        private bool CanAddTcUnitTestSuite (ProjectItem item)
+        {
+            if (item == null)
+            {
+                return false;
+            }
+
+            if (!(item?.Object is ITcSmTreeItem))
+            {
+                return false;
+            }
+
+            var treeItem = item.Object as ITcSmTreeItem;
+            var isFolderOrPlcProject = treeItem.ItemType == (int)TCatSysManagerLib.TREEITEMTYPES.TREEITEMTYPE_PLCAPP
+                || treeItem.ItemType == (int)TCatSysManagerLib.TREEITEMTYPES.TREEITEMTYPE_PLCFOLDER;
+
+            return isFolderOrPlcProject;
         }
 
         public static async Task InitializeAsync(AsyncPackage package)
         {
-            // Switch to the main thread - the call to AddCommand in AddUnitTestSuiteCommand's constructor requires
-            // the UI thread.
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
 
             OleMenuCommandService commandService = await package.GetServiceAsync((typeof(IMenuCommandService))) as OleMenuCommandService;
@@ -91,18 +85,15 @@ namespace TcUnit_VsExtension.Commands
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
-
-            DTE dte = Package.GetGlobalService(typeof(DTE)) as DTE;
-
             ProjectItem selectedItem = dte.SelectedItems.Item(1).ProjectItem;
 
-            if(selectedItem == null)
+            Project plcProject = selectedItem.ContainingProject;
+            ITcSmTreeItem plcProjectTreeItem = plcProject.Object as ITcSmTreeItem;
+
+            if (selectedItem == null)
             {
                 return;
             }
-
-            var plcProject = selectedItem.ContainingProject;
-            ITcSmTreeItem plcProjectTreeItem = plcProject.Object as ITcSmTreeItem;
 
             if (!(selectedItem.Object is ITcSmTreeItem))
             {
@@ -123,21 +114,7 @@ namespace TcUnit_VsExtension.Commands
             {
                 var testSuiteName = dialog.textboxName;
                 testSuiteFactory.Create(testSuiteName, treeItem);
-
-                // Instantiate test suite in main program
-                var pouCall = FindTaskItem(plcProjectTreeItem)?.Name;
-
-                var pouCalledByTask = FindPouTreeItemCalledByTask(plcProjectTreeItem, pouCall);
-
-                if( pouCalledByTask is ITcPlcDeclaration)
-                {
-                    ITcPlcDeclaration decl = pouCalledByTask as ITcPlcDeclaration;
-                    var declaration = decl.DeclarationText;
-
-                    var testSuiteInstance = string.Format($"\t{testSuiteName} : {testSuiteName};\r\nEND_VAR\r\n");
-                    declaration = declaration.Replace("END_VAR", testSuiteInstance);
-                    decl.DeclarationText = declaration;
-                }
+                InstantiateTestSuiteInCyclicProgram(plcProjectTreeItem, testSuiteName);
 
                 dte.ExecuteCommand("File.SaveAll");
 
@@ -153,6 +130,22 @@ namespace TcUnit_VsExtension.Commands
                 {
                     NotificationProvider.DisplayInStatusBar("Could not add new test suite!");
                 }         
+            }
+        }
+
+        private void InstantiateTestSuiteInCyclicProgram (ITcSmTreeItem plcProjectTreeItem, string testSuiteName)
+        {
+            var pouCall = FindTaskItem(plcProjectTreeItem)?.Name;
+            var pouCalledByTask = FindPouTreeItemCalledByTask(plcProjectTreeItem, pouCall);
+
+            if (pouCalledByTask is ITcPlcDeclaration)
+            {
+                ITcPlcDeclaration decl = pouCalledByTask as ITcPlcDeclaration;
+                var declaration = decl.DeclarationText;
+
+                var testSuiteInstance = string.Format($"\t{testSuiteName} : {testSuiteName};\r\nEND_VAR\r\n");
+                declaration = declaration.Replace("END_VAR", testSuiteInstance);
+                decl.DeclarationText = declaration;
             }
         }
 

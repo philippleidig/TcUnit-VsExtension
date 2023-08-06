@@ -1,20 +1,13 @@
 ﻿using System;
 using System.ComponentModel.Design;
-using System.Globalization;
-using System.Threading;
-using System.Threading.Tasks;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 using TCatSysManagerLib;
 using TcUnit_VsExtension.Dialogs;
 using Task = System.Threading.Tasks.Task;
 
 namespace TcUnit_VsExtension.Commands
 {
-    /// <summary>
-    /// Command handler
-    /// </summary>
     internal sealed class AddUnitTestCaseCommand
     {
         public const int CommandId = PackageIds.AddUnitTestCaseCommandId;
@@ -22,6 +15,8 @@ namespace TcUnit_VsExtension.Commands
 
         private readonly AsyncPackage package;
         private readonly TestCaseFactory testCaseFactory;
+
+        private readonly EnvDTE.DTE dte;
 
         private AddUnitTestCaseCommand(AsyncPackage package, OleMenuCommandService commandService)
         {
@@ -32,6 +27,8 @@ namespace TcUnit_VsExtension.Commands
             var menuItem = new OleMenuCommand(this.Execute, menuCommandID);
             menuItem.BeforeQueryStatus += new EventHandler(OnBeforeQueryStatus);
             commandService.AddCommand(menuItem);
+
+            this.dte = Package.GetGlobalService(typeof(DTE)) as DTE;
 
             testCaseFactory = new TestCaseFactory();
         }
@@ -51,34 +48,31 @@ namespace TcUnit_VsExtension.Commands
             var command = sender as OleMenuCommand;
             if (null != command)
             {
-
                 command.Visible = false;
-
-                DTE dte = Package.GetGlobalService(typeof(DTE)) as DTE;
-
                 ProjectItem selectedItem = dte.SelectedItems?.Item(1)?.ProjectItem;
-
-
-                if (!(selectedItem?.Object is ITcSmTreeItem))
-                {
-                    return;
-                }
-
-                ITcSmTreeItem treeItem = selectedItem.Object as ITcSmTreeItem;
-
-                var isFunctionBlock = treeItem.ItemType == (int)TCatSysManagerLib.TREEITEMTYPES.TREEITEMTYPE_PLCPOUFB;
-
-                if(!isFunctionBlock)
-                {
-                    return;
-                }
-
-                ITcPlcDeclaration fbDecl = treeItem as ITcPlcDeclaration;
-
-                var isTestSuite = fbDecl.DeclarationText.Contains("EXTENDS TcUnit.FB_TestSuite");
-
-                command.Visible = isFunctionBlock && isTestSuite;
+                command.Visible = IsTcUnitTestSuite(selectedItem);
             }
+        }
+
+        private bool IsTcUnitTestSuite (ProjectItem item)
+        {
+            if (!(item?.Object is ITcSmTreeItem))
+            {
+                return false;
+            }
+
+            ITcSmTreeItem treeItem = item.Object as ITcSmTreeItem;
+            var isFunctionBlock = treeItem.ItemType == (int)TCatSysManagerLib.TREEITEMTYPES.TREEITEMTYPE_PLCPOUFB;
+
+            if (!isFunctionBlock)
+            {
+                return false;
+            }
+
+            ITcPlcDeclaration fbDecl = treeItem as ITcPlcDeclaration;
+            var isTestSuite = fbDecl.DeclarationText.Contains("EXTENDS TcUnit.FB_TestSuite");
+
+            return isFunctionBlock && isTestSuite;
         }
 
 
@@ -93,9 +87,6 @@ namespace TcUnit_VsExtension.Commands
         private void Execute(object sender, EventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-
-            DTE dte = Package.GetGlobalService(typeof(DTE)) as DTE;
-
             ProjectItem selectedItem = dte.SelectedItems.Item(1).ProjectItem;
             
             if (!(selectedItem.Object is ITcSmTreeItem))
