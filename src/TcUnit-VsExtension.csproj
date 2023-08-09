@@ -56,10 +56,10 @@
   <ItemGroup>
     <Compile Include="Commands\AddUnitTestCaseCommand.cs" />
     <Compile Include="Commands\AddUnitTestSuiteCommand.cs" />
-    <Compile Include="CommandTable.cs">
+    <Compile Include="VSCommandTable.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>CommandTable.vsct</DependentUpon>
+      <DependentUpon>VSCommandTable.vsct</DependentUpon>
     </Compile>
     <Compile Include="Common\NotificationProvider.cs" />
     <Compile Include="Dialogs\AddUnitTestCaseDialogWindow.xaml.cs">
@@ -194,10 +194,10 @@
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="Resources\TcUnit-Logo.png" />
-    <VSCTCompile Include="CommandTable.vsct">
+    <VSCTCompile Include="VSCommandTable.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
       <Generator>VsctGenerator</Generator>
-      <LastGenOutput>CommandTable.cs</LastGenOutput>
+      <LastGenOutput>VSCommandTable.cs</LastGenOutput>
     </VSCTCompile>
   </ItemGroup>
   <ItemGroup>
