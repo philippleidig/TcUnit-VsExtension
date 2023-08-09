@@ -11,6 +11,8 @@
 
     <Buttons>
       <Button guid="guidTcUnitPackageCmdSet" id="AddUnitTestSuiteCommandId" type="Button">
+		<CommandFlag>DefaultDisabled</CommandFlag>
+		<CommandFlag>DefaultInvisible</CommandFlag>
         <CommandFlag>DynamicVisibility</CommandFlag>
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
@@ -18,6 +20,8 @@
         </Strings>
       </Button>
       <Button guid="guidTcUnitPackageCmdSet" id="AddUnitTestCaseCommandId" type="Button">
+		<CommandFlag>DefaultDisabled</CommandFlag>
+		<CommandFlag>DefaultInvisible</CommandFlag>
         <CommandFlag>DynamicVisibility</CommandFlag>
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
