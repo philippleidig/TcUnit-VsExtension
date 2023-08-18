@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TCatSysManagerLib;
 
-namespace TcUnit_VsExtension
+namespace TcUnit.VisualStudio.Factories
 {
     public class TestCaseFactory
     {

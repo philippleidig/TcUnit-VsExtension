@@ -4,10 +4,11 @@ using System.ComponentModel.Design;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 using TCatSysManagerLib;
-using TcUnit_VsExtension.Dialogs;
+using TcUnit.VisualStudio.Dialogs;
+using TcUnit.VisualStudio.Factories;
 using Task = System.Threading.Tasks.Task;
 
-namespace TcUnit_VsExtension.Commands
+namespace TcUnit.VisualStudio.Commands
 {
     internal sealed class AddUnitTestSuiteCommand
     {

@@ -1,7 +1,7 @@
 ﻿
 using System.Windows;
 
-namespace TcUnit_VsExtension.Dialogs
+namespace TcUnit.VisualStudio.Dialogs
 {
     /// <summary>
     /// Interaction logic for AddUnitTestCaseDialogWindow.xaml.

@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
 
-namespace TcUnit_VsExtension
+namespace TcUnit.VisualStudio
 {
     public static class NotificationProvider
     {
