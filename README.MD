@@ -28,6 +28,10 @@ Visual Studio Extension for higher productivity when using TcUnit for unit testi
 
 ![add test case template](./assets/images/add-test-case-template.png)
 
+## Visual Studio Test Explorer Support
+
+![vs-test-explorer](/assets/images/vs-test-explorer.png)
+
 ## PLC Project Template
 
 1. Copy the content from "./templates/TcUnit" to "C:\TwinCAT\3.1\Components\Plc\PlcTemplates\1.0.0.0\Plc Templates\TcUnit" on your engineering system
