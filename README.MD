@@ -32,6 +32,8 @@ Visual Studio Extension for higher productivity when using TcUnit for unit testi
 
 ![vs-test-explorer](/assets/images/vs-test-explorer.png)
 
+Uses [TcUnit.TestAdapter](https://github.com/philippleidig/TcUnit-VsTestAdapter) for extending [vstest](https://github.com/microsoft/vstest)
+
 ## PLC Project Template
 
 1. Copy the content from "./templates/TcUnit" to "C:\TwinCAT\3.1\Components\Plc\PlcTemplates\1.0.0.0\Plc Templates\TcUnit" on your engineering system
