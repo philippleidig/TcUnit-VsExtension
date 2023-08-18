@@ -24,5 +24,8 @@
     </Prerequisites>
     <Assets>
         <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
-    </Assets>
+		<Asset Type="Microsoft.VisualStudio.MefComponent" d:ProjectName="TcUnit.TestAdapter" d:Source="Project" Path="|TcUnit.TestAdapter|" />
+		<Asset Type="UnitTestExtension" d:Source="Project" d:ProjectName="TcUnit.TestAdapter" Path="|TcUnit.TestAdapter|" />
+		<Asset Type="Microsoft.VisualStudio.MefComponent" d:ProjectName="%CurrentProject%" d:Source="Project" Path="|%CurrentProject%|" />
+	</Assets>
 </PackageManifest>
