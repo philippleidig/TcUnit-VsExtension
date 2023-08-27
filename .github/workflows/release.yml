@@ -12,3 +12,7 @@ jobs:
 
       - name: Install inno setup package via chocolatey
         run: choco install innosetup
+
+      - name: Check inno setup installation
+        run: innosetup --version
+        run: innosetup --help
