@@ -8,9 +8,44 @@ on:
 jobs:
   install:
     runs-on: windows-latest
-
+    env: 
+        DOTNET_NOLOGO: true
+        DOTNET_CLI_TELEMETRY_OPTOUT: true
+        RepositoryUrl: 'https://github.com/${{ github.repository }}'
+        RepositoryBranch: '${{ github.ref }}'
+        SourceRevisionId: '${{ github.sha }}'
+        Configuration: Release
+        SolutionPath: src\TcUnit-VsExtension.sln
+        VsixManifestPath: src\TcUnit-VsExtension2019\source.extension.vsixmanifest
+        VsixPath: src\TcUnit-VsExtension2019\bin\Release\TcUnit.vsix
+        VsixPublishManifestPath: src\TcUnit-VsExtension2019\publishManifest.json
     steps:
       - uses: actions/checkout@v3
+
+      - name: Setup MSBuild.exe
+        uses: microsoft/setup-msbuild@v1.0.2
+
+      - name: Restore NuGet Packages
+        run: nuget restore $env:SolutionPath
+
+      - name: Build extension
+        run: msbuild $env:SolutionPath /t:Rebuild
+        env: 
+          DeployExtension: False
+
+      - name: Calculate next version
+        uses: cezarypiatek/NextVersionGeneratorAction@0.4
+        with:
+          major-pattern: 'BREAKING CHANGES:'
+          minor-pattern: 'FEATURE:'
+          patch-pattern: '.*'
+          output-to-env-variable: 'Version'
+
+      - name: Set version for Visual Studio Extension
+        uses: cezarypiatek/VsixVersionAction@1.0
+        with:
+          version: ${{ env.Version }}
+          vsix-manifest-file: 'src\TcUnit-VsExtension2019\source.extension.vsixmanifest'
 
       - name: Install inno setup package via chocolatey
         run: choco install innosetup
