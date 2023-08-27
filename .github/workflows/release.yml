@@ -1,0 +1,14 @@
+name: Install inno setup pkg
+
+on: workflow_dispatch
+
+jobs:
+
+  install:
+
+    runs-on: windows-latest
+
+    steps:
+
+      - name: Install inno setup package via chocolatey
+        run: choco install innosetup
