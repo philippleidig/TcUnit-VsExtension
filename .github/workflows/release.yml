@@ -1,4 +1,4 @@
-name: Install inno setup pkg
+name: Release TcUnit VsExtension setup 
 
 on:
   push:
@@ -10,9 +10,10 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: Checkout repository
-      - uses: actions/checkout@v2 
+      - uses: actions/checkout@v3
+
       - name: Install inno setup package via chocolatey
         run: choco install innosetup
+
       - name: Build setup
         run: iscc.exe setup\TcUnit.iss
