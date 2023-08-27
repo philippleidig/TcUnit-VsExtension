@@ -10,11 +10,9 @@ jobs:
     runs-on: windows-latest
 
     steps:
+      - name: Checkout repository
+      - uses: actions/checkout@v2 
       - name: Install inno setup package via chocolatey
         run: choco install innosetup
-      - name: Check inno setup installation
-        run: innosetup --version
-      - name: Check help
-        run: innosetup --help
       - name: Build setup
-        run: iscc.exe setup\\TcUnit.iss
+        run: iscc.exe setup\TcUnit.iss
