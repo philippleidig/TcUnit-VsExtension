@@ -16,6 +16,8 @@
     <Implicit_KindOfTask>{b3c75bac-6ae6-4f1e-9743-77323d1112f8}</Implicit_KindOfTask>
     <Implicit_Jitter_Distribution>{c2594b1f-b193-447e-9d0a-cb64e37fce8c}</Implicit_Jitter_Distribution>
     <LibraryReferences>{7cc4d0eb-feb2-4b8a-a1d3-5a17d03157ff}</LibraryReferences>
+    <RunSettingsFilePath>$(MSBuildProjectDirectory)\TcUnit.runsettings</RunSettingsFilePath>
+    <UnitTestProject>true</UnitTestProject>
   </PropertyGroup>
   <ItemGroup>
     <PlaceholderReference Include="Tc2_Standard">
