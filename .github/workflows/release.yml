@@ -1,18 +1,19 @@
 name: Install inno setup pkg
 
-on: workflow_dispatch
+push:
+  branches:    
+    - main
 
 jobs:
-
   install:
-
     runs-on: windows-latest
 
     steps:
-
       - name: Install inno setup package via chocolatey
         run: choco install innosetup
-
       - name: Check inno setup installation
         run: innosetup --version
+      - name: Check help
         run: innosetup --help
+      - name: Build setup
+        run: iscc.exe setup\\TcUnit.iss
