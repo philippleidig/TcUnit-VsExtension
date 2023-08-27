@@ -1,0 +1,1 @@
+Start-Process -FilePath "C:\Program Files (x86)\Inno Setup 6\iscc.exe" -ArgumentList "/q ..\setup\TcUnit.iss"
