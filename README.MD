@@ -1,5 +1,14 @@
-# TcUnit Visual Studio Extension
-Visual Studio Extension for higher productivity when using TcUnit for unit testing with TwinCAT 3.1 from Beckhoff.
+![TcUnit logo](https://github.com/philippleidig/TcUnit-VsExtension/blob/main/assets/TcUnit.png)
+[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/philippleidig/TcUnit-VsExtension/blob/main/LICENSE)
+[![Open Source? Yes!](https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github)](https://github.com/philippleidig/TcUnit-VsExtension)
+
+# TcUnit - Visual Studio Extension
+Visual Studio Extension for higher productivity when using [TcUnit](https://github.com/tcunit/TcUnit) for unit testing with [TwinCAT 3.1](https://www.beckhoff.com/twincat3/) from [Beckhoff](https://www.beckhoff.com).
+
+## Table of Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
 
 ## Installation
 
