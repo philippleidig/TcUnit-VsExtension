@@ -12,14 +12,12 @@ Visual Studio Extension for higher productivity when using [TcUnit](https://gith
 
 ## Installation
 
-### TcXaeShell:
-1. Unzip the generated *.VSIX as archive
-2. Copy it´s content to "C:\Program Files (x86)\Beckhoff\TcXaeShell\Common7\IDE\Extensions\TcUnit" 
-3. Restart TcXaeShell
+To install the TcUnit Visual Studio Extension, follow these steps:
 
-### Visual Studio:
-1. Execute the TcUnit.vsix file
-2. Select Visual Studio version
+1. [Download](https://github.com/philippleidig/TcUnit-VsExtension/releases/latest) the latest installer.
+3. Select the Visual Studio and TcXaeShell versions, which the TcUnit Extension should be installed for.
+4. Click on "Install".
+5. Follow the on-screen instructions to complete the installation.
 
 ## Usage
 
@@ -39,15 +37,18 @@ Visual Studio Extension for higher productivity when using [TcUnit](https://gith
 
 ## Visual Studio Test Explorer Support
 
+> [!NOTE]  
+> VS Test Explorer currently not supported due to open issue
+> see [TcUnit #218](https://github.com/tcunit/TcUnit/issues/218) for more information
+
 ![vs-test-explorer](/assets/images/vs-test-explorer.png)
 
 Uses [TcUnit.TestAdapter](https://github.com/philippleidig/TcUnit-VsTestAdapter) for extending [vstest](https://github.com/microsoft/vstest)
 
 ## PLC Project Template
 
-1. Copy the content from "./templates/TcUnit" to "C:\TwinCAT\3.1\Components\Plc\PlcTemplates\1.0.0.0\Plc Templates\TcUnit" on your engineering system
-2. Restart Visual Studio or TcXaeShell
-3. Add "TcUnit Template" as PLC project
+1. Template is copied to "C:\TwinCAT\3.1\Components\Plc\PlcTemplates\1.0.0.0\Plc Templates\TcUnit" after installation
+2. Add "TcUnit Template" as PLC project
 
 ![add tcunit template](./assets/images/add-tcunit-plc-template.png)
 

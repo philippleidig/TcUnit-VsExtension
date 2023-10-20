@@ -5,6 +5,12 @@ VisualStudioVersion = 16.0.33801.447
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TcUnit-VsExtension", "src\TcUnit-VsExtension.csproj", "{5699B6A3-4EF4-4092-BDF2-8A2781B2E795}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{48921462-ED3B-49DF-A8ED-F5E181477E8E}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE.MD = LICENSE.MD
+		README.MD = README.MD
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
