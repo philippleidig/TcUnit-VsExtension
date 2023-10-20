@@ -65,6 +65,15 @@
     <Compile Include="Events\TestFileAddRemoveListener.cs" />
     <Compile Include="Events\TestFileChangedEventArgs.cs" />
     <Compile Include="Events\TestFilesUpdateWatcher.cs" />
+    <Compile Include="Options\GeneralOptionsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Options\GeneralOptionsControl.Designer.cs">
+      <DependentUpon>GeneralOptionsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Options\GeneralOptionsPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="TestWindow\TcUnitTestContainer.cs" />
     <Compile Include="TestWindow\TcUnitTestContainerDiscoverer.cs" />
     <Compile Include="VSCommandTable.cs">
@@ -225,6 +234,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Options\GeneralOptionsControl.resx">
+      <DependentUpon>GeneralOptionsControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="VSPackage.resx">
       <MergeWithCTO>true</MergeWithCTO>
       <ManifestResourceName>VSPackage</ManifestResourceName>
