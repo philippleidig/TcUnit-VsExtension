@@ -45,6 +45,12 @@ To install the TcUnit Visual Studio Extension, follow these steps:
 
 Uses [TcUnit.TestAdapter](https://github.com/philippleidig/TcUnit-VsTestAdapter) for extending [vstest](https://github.com/microsoft/vstest)
 
+## Options
+
+Configure test suite and test case naming convention using regular expressions and provide the test case template source code in the options.
+
+![vs-options](/assets/images/vs-options.png)
+
 ## PLC Project Template
 
 1. Template is copied to "C:\TwinCAT\3.1\Components\Plc\PlcTemplates\1.0.0.0\Plc Templates\TcUnit" after installation
