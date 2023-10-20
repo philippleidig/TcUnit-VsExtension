@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TCatSysManagerLib;
+using TcUnit.Options;
 
 namespace TcUnit.VisualStudio.Factories
 {
     public class TestCaseFactory
     {
-        public static string TestCaseTemplate = @"TEST('{{TEST_NAME}}');
+        private string defaultTestCaseTemplate =
+@"TEST('{{TEST_NAME}}');
 
 // @TEST-FIXTURE
 
@@ -18,6 +20,8 @@ namespace TcUnit.VisualStudio.Factories
 // @TEST-ASSSERT
 
 TEST_FINISHED();";
+
+        private string TestCaseTemplate => TcUnitPackage.GetTestCaseTemplate() ?? defaultTestCaseTemplate;
 
         public void Create (string name, ITcSmTreeItem parent)
         {
