@@ -26,6 +26,20 @@ TEST_FINISHED();";
             set { testCaseTemplate = value; }
         }
 
+        private string testCaseNamingRegex = "";
+        public string TestCaseNamingRegex
+        {
+            get { return testCaseNamingRegex; }
+            set { testCaseNamingRegex = value; }
+        }
+
+        private string testSuiteNamingRegex = "^[A-Z][a-zA-Z0-9]*_Tests$";
+        public string TestSuiteNamingRegex
+        {
+            get { return testSuiteNamingRegex; }
+            set { testSuiteNamingRegex = value; }
+        }
+
         protected override IWin32Window Window => new GeneralOptionsControl(this);
     }
 }

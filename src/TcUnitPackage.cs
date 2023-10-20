@@ -40,10 +40,9 @@ namespace TcUnit.VisualStudio
 
         public static Package Package;
 
-        public static string GetTestCaseTemplate()
+        public static GeneralOptionsPage GetTestCaseTemplate()
         {
-            var options = (GeneralOptionsPage)Package.GetDialogPage(typeof(GeneralOptionsPage));
-            return options.TestCaseTemplate;
+            return (GeneralOptionsPage)Package.GetDialogPage(typeof(GeneralOptionsPage));
         }
     }
 }

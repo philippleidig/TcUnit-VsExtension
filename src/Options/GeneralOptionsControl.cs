@@ -35,6 +35,9 @@ namespace TcUnit.Options
             richTextBox1.Text = _optionsPage.TestCaseTemplate;
             richTextBox1.Focus();
 
+            testSuiteNamingRegex.Text = _optionsPage.TestSuiteNamingRegex;
+            testCaseNamingRegex.Text = _optionsPage.TestCaseNamingRegex;
+
             applyTextHighlighting();
         }
 
@@ -111,5 +114,6 @@ namespace TcUnit.Options
         {
             applyTextHighlighting();
         }
+
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TCatSysManagerLib;
 using TcUnit.Options;
@@ -10,27 +11,22 @@ namespace TcUnit.VisualStudio.Factories
 {
     public class TestCaseFactory
     {
-        private string defaultTestCaseTemplate =
-@"TEST('{{TEST_NAME}}');
-
-// @TEST-FIXTURE
-
-// @TEST-RUN
-
-// @TEST-ASSSERT
-
-TEST_FINISHED();";
-
-        private string TestCaseTemplate => TcUnitPackage.GetTestCaseTemplate() ?? defaultTestCaseTemplate;
+        private string TestCaseTemplate => TcUnitPackage.GetTestCaseTemplate().TestCaseTemplate;
+        private Regex TestCaseNamingRegex => new Regex(TcUnitPackage.GetTestCaseTemplate().TestCaseNamingRegex);
 
         public void Create (string name, ITcSmTreeItem parent)
         {
             if(parent == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(parent));
             }
 
             if(name == string.Empty)
+            {
+                throw new ArgumentOutOfRangeException(nameof(name));
+            }
+
+            if(!TestCaseNamingRegex.IsMatch(name))
             {
                 throw new ArgumentOutOfRangeException();
             }
