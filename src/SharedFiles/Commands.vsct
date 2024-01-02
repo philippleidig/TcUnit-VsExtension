@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <Extern href="stdidcmd.h" />
+  <Extern href="vsshlids.h" />
+
+  <Commands package="guidTcUnitPackage">
+    <Groups>
+      <Group guid="guidTcUnitPackageCmdSet" id="TwinCatContextMenuGroup" priority="0x0000" />
+    </Groups>
+
+    <Buttons>
+      <Button guid="guidTcUnitPackageCmdSet" id="AddUnitTestSuiteCommandId" type="Button">
+		<CommandFlag>DefaultDisabled</CommandFlag>
+		<CommandFlag>DefaultInvisible</CommandFlag>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <Icon guid="guidImages" id="bmpPic1" />
+        <Strings>
+          <ButtonText>Add TestSuite</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidTcUnitPackageCmdSet" id="AddUnitTestCaseCommandId" type="Button">
+		<CommandFlag>DefaultDisabled</CommandFlag>
+		<CommandFlag>DefaultInvisible</CommandFlag>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <Icon guid="guidImages" id="bmpPic1" />
+        <Strings>
+          <ButtonText>Add UnitTest</ButtonText>
+        </Strings>
+      </Button>
+    </Buttons>
+
+    <Bitmaps>
+      <Bitmap guid="guidImages" href="..\SharedFiles\Command.png" usedList="bmpPic1" />
+    </Bitmaps>
+  </Commands>
+
+  <CommandPlacements>
+
+    <CommandPlacement guid="guidTcUnitPackageCmdSet" id="TwinCatContextMenuGroup" priority="0x0000">
+      <Parent guid="TwincatPlcProjectCmdSet" id="TwinCatProjectContextMenuId" />
+    </CommandPlacement>
+
+    <CommandPlacement guid="guidTcUnitPackageCmdSet" id="TwinCatContextMenuGroup" priority="0x0000">
+      <Parent guid="TwincatPlcProjectCmdSet" id="TwinCatFolderContextMenuId" />
+    </CommandPlacement>
+
+    <CommandPlacement guid="guidTcUnitPackageCmdSet" id="TwinCatContextMenuGroup" priority="0x0000">
+      <Parent guid="TwincatPlcProjectCmdSet" id="TwincatFileContextMenuId" />
+    </CommandPlacement>
+
+    <CommandPlacement guid="guidTcUnitPackageCmdSet" id="AddUnitTestSuiteCommandId" priority="0x0">
+      <Parent guid="guidTcUnitPackageCmdSet" id="TwinCatContextMenuGroup" />
+    </CommandPlacement>
+
+    <CommandPlacement guid="guidTcUnitPackageCmdSet" id="AddUnitTestCaseCommandId" priority="0x0">
+      <Parent guid="guidTcUnitPackageCmdSet" id="TwinCatContextMenuGroup" />
+    </CommandPlacement>
+  </CommandPlacements>
+
+  <Symbols>
+    <GuidSymbol name="guidTcUnitPackage" value="{cfe9289a-39cb-4a97-be31-61d2e9763163}" />
+
+    <GuidSymbol name="TwincatPlcProjectCmdSet" value="{3B11520B-7E70-4008-A6CF-B60AE84E12B1}">
+      <IDSymbol name="TwinCatProjectContextMenuId" value="0x9013" />
+      <IDSymbol name="TwincatFileContextMenuId" value="0x9011" />
+      <IDSymbol name="TwinCatFolderContextMenuId" value="0x9010" />
+      <IDSymbol name="TwinCatPLCCodeEditorContextMenuId" value="0x9017" />
+    </GuidSymbol>
+
+    <GuidSymbol name="guidTcUnitPackageCmdSet" value="{eb15d4da-46d4-42b2-8130-4971b2ef53af}">
+      <IDSymbol name="AddUnitTestSuiteCommandId" value="0x0100" />
+      <IDSymbol name="AddUnitTestCaseCommandId" value="0x200"/>
+      <IDSymbol name="TwinCatContextMenuGroup" value="0x1250" />
+    </GuidSymbol>
+
+    <GuidSymbol name="guidImages" value="{e5c270b5-e48c-47c0-8890-2a6f2d454eef}">
+      <IDSymbol name="bmpPic1" value="1" />
+      <IDSymbol name="bmpPic2" value="2" />
+    </GuidSymbol>
+
+  </Symbols>
+</CommandTable>
