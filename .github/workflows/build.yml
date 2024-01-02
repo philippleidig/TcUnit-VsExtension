@@ -32,14 +32,14 @@ jobs:
         msbuild: 'true'
 
     - name: Increment VSIX version 15
-      id: vsix_version
+      id: vsix_version_15
       uses: timheuer/vsix-version-stamp@v1
       with:
         manifest-file: ${{ env.Vsix15ManifestPath }}
         vsix-token-source-file: ${{ env.Vsix15ManifestSourcePath }}
 
     - name: Increment VSIX version 17
-      id: vsix_version
+      id: vsix_version_17
       uses: timheuer/vsix-version-stamp@v1
       with:
         manifest-file: ${{ env.Vsix17ManifestPath }}
