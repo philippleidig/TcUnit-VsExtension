@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34316.72
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "TcUnit.Vsix.Shared", "src\TcUnit.Vsix.Shared\TcUnit.Vsix.Shared.shproj", "{0FDB9F73-33C4-4CC7-9813-8D9A4BEBBC0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TcUnit.Vsix.17", "src\TcUnit.Vsix.17\TcUnit.Vsix.17.csproj", "{710545A5-E083-4F4C-A7AC-C0F8B2E1F255}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TcUnit.Vsix.15", "src\TcUnit.Vsix.15\TcUnit.Vsix.15.csproj", "{F11ED694-AD48-4596-87E0-F19C663CAF9C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{48516E58-37EA-465C-9DEC-02360682E586}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE.md = LICENSE.md
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{710545A5-E083-4F4C-A7AC-C0F8B2E1F255}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{710545A5-E083-4F4C-A7AC-C0F8B2E1F255}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{710545A5-E083-4F4C-A7AC-C0F8B2E1F255}.Debug|x86.ActiveCfg = Debug|x86
+		{710545A5-E083-4F4C-A7AC-C0F8B2E1F255}.Debug|x86.Build.0 = Debug|x86
+		{710545A5-E083-4F4C-A7AC-C0F8B2E1F255}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{710545A5-E083-4F4C-A7AC-C0F8B2E1F255}.Release|Any CPU.Build.0 = Release|Any CPU
+		{710545A5-E083-4F4C-A7AC-C0F8B2E1F255}.Release|x86.ActiveCfg = Release|x86
+		{710545A5-E083-4F4C-A7AC-C0F8B2E1F255}.Release|x86.Build.0 = Release|x86
+		{F11ED694-AD48-4596-87E0-F19C663CAF9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F11ED694-AD48-4596-87E0-F19C663CAF9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F11ED694-AD48-4596-87E0-F19C663CAF9C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F11ED694-AD48-4596-87E0-F19C663CAF9C}.Debug|x86.Build.0 = Debug|Any CPU
+		{F11ED694-AD48-4596-87E0-F19C663CAF9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F11ED694-AD48-4596-87E0-F19C663CAF9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F11ED694-AD48-4596-87E0-F19C663CAF9C}.Release|x86.ActiveCfg = Release|Any CPU
+		{F11ED694-AD48-4596-87E0-F19C663CAF9C}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {542B75D1-FB30-40C5-BA16-7B83FE91D168}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		src\TcUnit.Vsix.Shared\TcUnit.Vsix.Shared.projitems*{0fdb9f73-33c4-4cc7-9813-8d9a4bebbc0e}*SharedItemsImports = 13
+		src\TcUnit.Vsix.Shared\TcUnit.Vsix.Shared.projitems*{710545a5-e083-4f4c-a7ac-c0f8b2e1f255}*SharedItemsImports = 4
+		src\TcUnit.Vsix.Shared\TcUnit.Vsix.Shared.projitems*{f11ed694-ad48-4596-87e0-f19c663caf9c}*SharedItemsImports = 4
+	EndGlobalSection
+EndGlobal

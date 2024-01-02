@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>0fdb9f73-33c4-4cc7-9813-8d9a4bebbc0e</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>TwinpackVsixShared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\AddUnitTestCaseCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\AddUnitTestSuiteCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\Command.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\NotificationProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\VsSolutionHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Dialogs\AddUnitTestCaseDialog.xaml.cs">
+      <DependentUpon>AddUnitTestCaseDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Dialogs\AddUnitTestSuiteDialog.xaml.cs">
+      <DependentUpon>AddUnitTestSuiteDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Events\ISolutionEventsListener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\ITestFileAddRemoveListener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\ITestFilesUpdateWatcher.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\SolutionEventsListener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\SolutionEventsListenerEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\TestFileAddRemoveListener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\TestFileChangedEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\TestFilesUpdateWatcher.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Factories\TestCaseFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Factories\TestSuiteFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\GeneralOptionsControl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\GeneralOptionsControl.Designer.cs">
+      <DependentUpon>GeneralOptionsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Options\GeneralOptionsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TcUnitPackage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TestWindow\TcUnitTestContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TestWindow\TcUnitTestContainerDiscoverer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Dialogs\AddUnitTestCaseDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Dialogs\AddUnitTestSuiteDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Options\GeneralOptionsControl.resx">
+      <DependentUpon>GeneralOptionsControl.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

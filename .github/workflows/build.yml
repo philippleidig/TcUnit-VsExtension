@@ -1,0 +1,85 @@
+name: "Build"
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+    branches: [master]
+      
+jobs:
+  build:
+    outputs:
+      version: ${{ steps.vsix_version.outputs.version-number }}
+    name: Build 
+    runs-on: windows-latest
+    env:
+      Configuration: Release
+      Vsix15ManifestPath: src\TcUnit.Vsix.15\source.extension.vsixmanifest
+      Vsix15ManifestSourcePath: src\TcUnit.Vsix.15\source.extension.cs
+      Vsix17ManifestPath: src\TcUnit.Vsix.17\source.extension.vsixmanifest
+      Vsix17ManifestSourcePath: src\TcUnit.Vsix.17\source.extension.cs
+      
+    steps:
+    - uses: actions/checkout@v3
+  
+    - name: Setup .NET build dependencies
+      uses: timheuer/bootstrap-dotnet@v1
+      with:
+        nuget: 'false'
+        sdk: 'false'
+        msbuild: 'true'
+
+    - name: Increment VSIX version 15
+      id: vsix_version
+      uses: timheuer/vsix-version-stamp@v1
+      with:
+        manifest-file: ${{ env.Vsix15ManifestPath }}
+        vsix-token-source-file: ${{ env.Vsix15ManifestSourcePath }}
+
+    - name: Increment VSIX version 17
+      id: vsix_version
+      uses: timheuer/vsix-version-stamp@v1
+      with:
+        manifest-file: ${{ env.Vsix17ManifestPath }}
+        vsix-token-source-file: ${{ env.Vsix17ManifestSourcePath }}
+
+    - name: Build
+      run: msbuild /v:m -restore /p:OutDir=dist
+      
+    - name: Install inno setup package via chocolatey
+      run: choco install innosetup
+
+    - name: Build setup
+      run: iscc.exe setup\TcUnit.iss
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: TcUnit_${{ needs.build.outputs.version }}.exe
+        path: dist/**/*.exe
+
+  publish:
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+    needs: build
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Download Package artifact
+        uses: actions/download-artifact@v2 
+        with:
+          name: TcUnit_${{ needs.build.outputs.version }}.exe
+
+      - name: Tag and Release
+        if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[release]') }}
+        id: tag_release
+        uses: softprops/action-gh-release@v0.1.13
+        with:
+          body: Release ${{ needs.build.outputs.version }}
+          tag_name: ${{ needs.build.outputs.version }}
+          files: |
+            **/*.exe
+
