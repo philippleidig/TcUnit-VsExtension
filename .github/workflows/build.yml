@@ -46,7 +46,7 @@ jobs:
         vsix-token-source-file: ${{ env.Vsix17ManifestSourcePath }}
 
     - name: Build
-      run: msbuild /v:m -restore /p:OutDir=dist
+      run: msbuild /v:m -restore /p:OutDir=bin\Release
       
     - name: Install inno setup package via chocolatey
       run: choco install innosetup
@@ -58,7 +58,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: TcUnit_${{ needs.build.outputs.version }}.exe
-        path: dist/**/*.exe
+        path: dist/*.exe
 
   publish:
     if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
