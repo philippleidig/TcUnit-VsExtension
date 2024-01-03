@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 using TCatSysManagerLib;
 
 namespace TcUnit.VisualStudio.Factories
 {
-    public class TestCaseFactory
+	public class TestCaseFactory
     {
         public void Create (string name, ITcSmTreeItem parent, string template)
         {
@@ -21,14 +20,13 @@ namespace TcUnit.VisualStudio.Factories
                  new string[] { ((int)IECLANGUAGETYPES.IECLANGUAGE_ST).ToString(), "", "PRIVATE" }
              );
 
-            ITcPlcImplementation testCaseImpl = (ITcPlcImplementation)testCase;
+            ITcPlcImplementation testCaseImpl = testCase as ITcPlcImplementation;
             testCaseImpl.ImplementationText = template.Replace("{{TEST_NAME}}", name);
 
             ITcPlcImplementation testSuiteImpl = parent as ITcPlcImplementation;
             string impl = testSuiteImpl.ImplementationText;
             impl = string.Concat(impl, name + "();\r\n");
             testSuiteImpl.ImplementationText = impl;
-
         }
     }
 }

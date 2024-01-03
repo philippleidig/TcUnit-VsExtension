@@ -1,122 +1,72 @@
 ﻿using System;
 using System.ComponentModel.Design;
 using System.Text.RegularExpressions;
+using Community.VisualStudio.Toolkit;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 using TCatSysManagerLib;
+using TcUnit.Options;
 using TcUnit.VisualStudio.Dialogs;
 using TcUnit.VisualStudio.Factories;
+using TwinpackVsixShared.Extensions;
 using Task = System.Threading.Tasks.Task;
 
 namespace TcUnit.VisualStudio.Commands
 {
-    internal sealed class AddUnitTestSuiteCommand
+	[Command(PackageGuids.guidTcUnitPackageCmdSetString, PackageIds.AddUnitTestSuiteCommandId)]
+	internal sealed class AddUnitTestSuiteCommand : BaseCommand<AddUnitTestSuiteCommand>
     {
-        public const int CommandId = PackageIds.AddUnitTestSuiteCommandId;
-        public static readonly Guid CommandSet = PackageGuids.guidTcUnitPackageCmdSet;
-
-        private readonly TcUnitPackage package;
         private readonly TestSuiteFactory testSuiteFactory;
 
-        private readonly EnvDTE.DTE dte;
-        private AddUnitTestSuiteCommand(TcUnitPackage package, OleMenuCommandService commandService)
+        public AddUnitTestSuiteCommand()
         {
-            this.package = package ?? throw new ArgumentNullException(nameof(package));
-            commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
-
-            var menuCommandID = new CommandID(CommandSet, CommandId);
-            var menuItem = new OleMenuCommand(this.Execute, menuCommandID);
-            menuItem.BeforeQueryStatus += new EventHandler(OnBeforeQueryStatus);
-            commandService.AddCommand(menuItem);
-
-            dte = Package.GetGlobalService(typeof(DTE)) as DTE;
-
             testSuiteFactory = new TestSuiteFactory();
-        }
+		}
 
-        public static AddUnitTestSuiteCommand Instance
-        {
-            get;
-            private set;
-        }
-
-        private Microsoft.VisualStudio.Shell.IAsyncServiceProvider ServiceProvider => package;
-
-        private void OnBeforeQueryStatus(object sender, EventArgs e)
-        {
-            ThreadHelper.ThrowIfNotOnUIThread();
-
-            var command = sender as OleMenuCommand;
-            if (null != command)
-            {
-                command.Visible = false;
-                ProjectItem selectedItem = dte?.SelectedItems?.Item(1)?.ProjectItem;
-                command.Visible = CanAddTcUnitTestSuite(selectedItem);
-            }
-        }
+		protected override void BeforeQueryStatus(EventArgs e)
+		{
+			Command.Visible = false;
+			var dte = VS.GetRequiredService<DTE, DTE>();
+			ProjectItem selectedItem = dte?.SelectedItems?.Item(1)?.ProjectItem;
+			Command.Visible = CanAddTcUnitTestSuite(selectedItem);
+		}
 
         private bool CanAddTcUnitTestSuite (ProjectItem item)
         {
             if (item == null)
-            {
-                return false;
-            }
+				return false;
 
-            if (!(item?.Object is ITcSmTreeItem))
-            {
-                return false;
-            }
+			if (!item.IsTwinCATTreeItem())
+				return false;
 
-            var treeItem = item.Object as ITcSmTreeItem;
-            var isFolderOrPlcProject = treeItem.ItemType == (int)TCatSysManagerLib.TREEITEMTYPES.TREEITEMTYPE_PLCAPP
-                || treeItem.ItemType == (int)TCatSysManagerLib.TREEITEMTYPES.TREEITEMTYPE_PLCFOLDER;
-
-            return isFolderOrPlcProject;
+			var treeItem = item.Object as ITcSmTreeItem;
+            return treeItem.IsPlcProject() || treeItem.IsPlcProjectFolder();
         }
 
-        public static async Task InitializeAsync(TcUnitPackage package)
+		protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)
         {
-            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
+			var dte = VS.GetRequiredService<DTE, DTE>();
+			ProjectItem selectedItem = dte.SelectedItems.Item(1).ProjectItem;
 
-            OleMenuCommandService commandService = await package.GetServiceAsync((typeof(IMenuCommandService))) as OleMenuCommandService;
-            Instance = new AddUnitTestSuiteCommand(package, commandService);
-        }
-
-        private void Execute(object sender, EventArgs e)
-        {
-            ThreadHelper.ThrowIfNotOnUIThread();
-
-            ProjectItem selectedItem = dte.SelectedItems.Item(1).ProjectItem;
-
-            Project plcProject = selectedItem.ContainingProject;
+            EnvDTE.Project plcProject = selectedItem.ContainingProject;
             ITcSmTreeItem plcProjectTreeItem = plcProject.Object as ITcSmTreeItem;
 
             if (selectedItem == null)
-            {
-                return;
-            }
+				return;
 
-            if (!(selectedItem.Object is ITcSmTreeItem))
-            {
-                return;
-            }
-
-            ITcSmTreeItem treeItem = selectedItem.Object as ITcSmTreeItem;
+			if (!(selectedItem.Object is ITcSmTreeItem treeItem))
+				return;
 
             AddUnitTestSuiteDialog dialog = new AddUnitTestSuiteDialog();
-			dialog.ShowDialog();
-			
-			if (!dialog.DialogResult.HasValue || !dialog.DialogResult.Value)
-            {
-                return;
-            }
-			
-            var testSuiteName = dialog.textboxName;
-            var testSuiteNamingRegex = new Regex(package.GetTestCaseTemplate().TestSuiteNamingRegex);
 
-            if (!testSuiteNamingRegex.IsMatch(testSuiteName))
+			if((bool)!dialog.ShowDialog())
+				return;
+
+			var testSuiteName = dialog.textboxName;
+
+            if (!Regex.IsMatch(testSuiteName, General.Instance.TestSuiteNamingRegex))
             {
-                NotificationProvider.DisplayInStatusBar("Could not add new test suite! Invalid test suite name!");
+				await VS.StatusBar.ShowMessageAsync("Could not add new test suite! Invalid test suite name!");
                 return;
             }
 
@@ -125,21 +75,16 @@ namespace TcUnit.VisualStudio.Commands
                 testSuiteFactory.Create(testSuiteName, treeItem);
                 InstantiateTestSuiteInCyclicProgram(plcProjectTreeItem, testSuiteName);
 
-                dte.ExecuteCommand("File.SaveAll");
-
-                NotificationProvider.DisplayInStatusBar($"Successfully added a new test suite \"{testSuiteName}\" to project \"{plcProjectTreeItem.Name}\"");
+				await VS.Commands.ExecuteAsync("File.SaveAll");
+				await VS.StatusBar.ShowMessageAsync($"Successfully added a new test suite \"{testSuiteName}\" to project \"{plcProjectTreeItem.Name}\"");
             }
             catch (Exception ex)
             {
                 if(ex.HResult == -2147467259)
-                {
-                    NotificationProvider.DisplayInStatusBar($"Could not add new test suite! Test suite \"{testSuiteName}\" does already exist!");
-                }
-                else
-                {
-                    NotificationProvider.DisplayInStatusBar("Could not add new test suite!");
-                }         
-            }
+					await VS.StatusBar.ShowMessageAsync($"Could not add new test suite! Test suite \"{testSuiteName}\" does already exist!");
+				else
+					await VS.StatusBar.ShowMessageAsync("Could not add new test suite!");
+			}
         }
 
         private void InstantiateTestSuiteInCyclicProgram (ITcSmTreeItem plcProjectTreeItem, string testSuiteName)
@@ -147,14 +92,13 @@ namespace TcUnit.VisualStudio.Commands
             var pouCall = FindTaskItem(plcProjectTreeItem)?.Name;
             var pouCalledByTask = FindPouTreeItemCalledByTask(plcProjectTreeItem, pouCall);
 
-            if (pouCalledByTask is ITcPlcDeclaration)
+            if (pouCalledByTask is ITcPlcDeclaration declarationItem)
             {
-                ITcPlcDeclaration decl = pouCalledByTask as ITcPlcDeclaration;
-                var declaration = decl.DeclarationText;
+                var declaration = declarationItem.DeclarationText;
 
                 var testSuiteInstance = string.Format($"\t{testSuiteName} : {testSuiteName};\r\nEND_VAR\r\n");
                 declaration = declaration.Replace("END_VAR", testSuiteInstance);
-                decl.DeclarationText = declaration;
+				declarationItem.DeclarationText = declaration;
             }
         }
 
@@ -164,11 +108,10 @@ namespace TcUnit.VisualStudio.Commands
             for (var i = plcTreeItem.ChildCount; i >= 1; i--)
             {
                 var childItem = plcTreeItem.Child[i];
-                if (childItem.ItemType == (int)TCatSysManagerLib.TREEITEMTYPES.TREEITEMTYPE_PLCTASK)
-                {
-                    return childItem.Child[1];
-                }
-            }
+
+                if (childItem.IsPlcTask())
+					return childItem.Child[1];
+			}
 
             return null;
         }
@@ -179,22 +122,11 @@ namespace TcUnit.VisualStudio.Commands
             {
                 var childItem = plcProjectItem.Child[i];
 
-                if(childItem.Name == pouName
-                    && childItem.ItemType == (int)TCatSysManagerLib.TREEITEMTYPES.TREEITEMTYPE_PLCPOUPROG)
-                {
-                    return childItem;
-                }
-                else if (childItem.ChildCount > 0
-                        && childItem.ItemType == (int)TCatSysManagerLib.TREEITEMTYPES.TREEITEMTYPE_PLCFOLDER )
-                {
-                    var treeItem = FindPouTreeItemCalledByTask(childItem, pouName);
-
-                    if(treeItem != null)
-                    {
-                        return treeItem;
-                    }
-                }
-            }
+                if(childItem.Name == pouName && childItem.IsPlcFunctionBlock())
+					return childItem;
+				else if (childItem.ChildCount > 0 && childItem.IsPlcProjectFolder() )
+					return FindPouTreeItemCalledByTask(childItem, pouName);
+			}
 
             return null;
         }
