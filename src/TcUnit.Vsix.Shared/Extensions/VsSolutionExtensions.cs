@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 
 namespace TcUnit.VisualStudio
 {
-	public static class VsSolutionHelper
+	public static class VsSolutionExtensions
 	{
 		public static IEnumerable<IVsHierarchy> EnumerateLoadedProjects(this IVsSolution solution, __VSENUMPROJFLAGS enumFlags)
 		{

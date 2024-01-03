@@ -6,7 +6,7 @@
     <SharedGUID>0fdb9f73-33c4-4cc7-9813-8d9a4bebbc0e</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>TwinpackVsixShared</Import_RootNamespace>
+    <Import_RootNamespace>TcUnit</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)app.config" />
@@ -14,9 +14,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Commands\AddUnitTestCaseCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\AddUnitTestSuiteCommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Commands\Command.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Common\NotificationProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Common\VsSolutionHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\VsSolutionExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Dialogs\AddUnitTestCaseDialog.xaml.cs">
       <DependentUpon>AddUnitTestCaseDialog.xaml</DependentUpon>
     </Compile>
@@ -31,13 +29,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)Events\TestFileAddRemoveListener.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\TestFileChangedEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\TestFilesUpdateWatcher.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ProjectItemExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\TcTreeItemExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Factories\TestCaseFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Factories\TestSuiteFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\GeneralOptionsControl.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Options\GeneralOptionsControl.Designer.cs">
-      <DependentUpon>GeneralOptionsControl.cs</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)Options\GeneralOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\GeneralOptionsControl.xaml.cs">
+      <DependentUpon>GeneralOptionsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Options\GeneralOptionsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\GeneralOptionsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TcUnitPackage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestWindow\TcUnitTestContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestWindow\TcUnitTestContainerDiscoverer.cs" />
@@ -51,10 +52,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Options\GeneralOptionsControl.resx">
-      <DependentUpon>GeneralOptionsControl.cs</DependentUpon>
-    </EmbeddedResource>
+    <Page Include="$(MSBuildThisFileDirectory)Options\GeneralOptionsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 </Project>

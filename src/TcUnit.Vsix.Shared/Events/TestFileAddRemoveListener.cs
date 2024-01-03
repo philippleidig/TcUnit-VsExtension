@@ -62,7 +62,7 @@ namespace TcUnit.VisualStudio.EventWatchers
                 {
                     if (changedProjects[changeProjIndex] != null && TestFileChanged != null)
                     {
-                        var projectFile =  VsSolutionHelper.GetProjectPath(changedProjects[changeProjIndex]);
+                        var projectFile =  VsSolutionExtensions.GetProjectPath(changedProjects[changeProjIndex]);
 
                         TestFileChanged(this, new TestFileChangedEventArgs(projectFile, changedProjectItems[projItemIndex], reason));
                     }

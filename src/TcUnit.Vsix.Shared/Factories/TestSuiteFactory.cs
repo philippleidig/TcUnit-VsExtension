@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 using TCatSysManagerLib;
 
 namespace TcUnit.VisualStudio.Factories
 {
-    public class TestSuiteFactory
+	public class TestSuiteFactory
     {
         public void Create (string name, ITcSmTreeItem parent)
         {
@@ -14,8 +13,8 @@ namespace TcUnit.VisualStudio.Factories
 			if (name == string.Empty)
 				throw new ArgumentOutOfRangeException(nameof(name));
 
-			string[] array = new string[] { "1", "Extends", "TcUnit.FB_TestSuite" };
-            ITcSmTreeItem tcSmTreeItem5 = parent.CreateChild(name, 604, "", array);
+			string[] settings = new string[] { "1", "Extends", "TcUnit.FB_TestSuite" };
+            ITcSmTreeItem testSuite = parent.CreateChild(name, 604, "", settings);
         }
     }
 }

@@ -50,8 +50,6 @@ namespace TcUnit.VisualStudio.TestWindow
             this.testFilesUpdateWatcher = testFilesUpdateWatcher;
             this.testFilesAddRemoveListener = testFilesAddRemoveListener;
 
-            NotificationProvider.ServiceProvider = serviceProvider;
-
             this.dte = serviceProvider.GetService(typeof(EnvDTE.DTE)) as EnvDTE.DTE;
 
             this.testFilesAddRemoveListener.TestFileChanged += OnProjectItemChanged;
@@ -179,7 +177,7 @@ namespace TcUnit.VisualStudio.TestWindow
             var solution = (IVsSolution)serviceProvider.GetService(typeof(SVsSolution));
             var loadedProjects = solution.EnumerateLoadedProjects(__VSENUMPROJFLAGS.EPF_LOADEDINSOLUTION).OfType<IVsProject>();
 
-            return loadedProjects.Select(VsSolutionHelper.GetProjectPath)
+            return loadedProjects.Select(VsSolutionExtensions.GetProjectPath)
                                     .Where(IsTwinCATProjectFile)
                                     .ToList();
         }
