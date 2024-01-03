@@ -119,6 +119,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="TcSysManagerLib">
+      <Version>3.3.0</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.SDK" Version="17.0.32112.339" ExcludeAssets="runtime" />
@@ -131,17 +134,6 @@
       <Generator>VsctGenerator</Generator>
       <LastGenOutput>Commands.cs</LastGenOutput>
     </VSCTCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="TCatSysManagerLib">
-      <Guid>{3C49D6C3-93DC-11D0-B162-00A0248C244B}</Guid>
-      <VersionMajor>3</VersionMajor>
-      <VersionMinor>3</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
