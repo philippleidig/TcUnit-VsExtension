@@ -31,6 +31,12 @@ jobs:
         sdk: 'false'
         msbuild: 'true'
 
+    - name: Format *.cs files
+      run: 
+          dotnet tool restore
+          dotnet format --fix-style --fix-analyzers
+          dotnet csharpier --check .
+
     - name: Increment VSIX version 15
       id: vsix_version_15
       uses: timheuer/vsix-version-stamp@v1
