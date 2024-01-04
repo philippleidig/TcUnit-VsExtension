@@ -31,11 +31,6 @@ jobs:
         sdk: 'false'
         msbuild: 'true'
 
-    - name: Format *.cs files
-      run: |
-          dotnet tool restore
-          dotnet csharpier --check .
-
     - name: Increment VSIX version 15
       id: vsix_version_15
       uses: timheuer/vsix-version-stamp@v1
@@ -53,6 +48,11 @@ jobs:
     - name: Build
       run: msbuild /v:m -restore /p:OutDir=bin\Release
       
+    - name: Format *.cs files
+      run: |
+          dotnet tool restore
+          dotnet csharpier --check .
+
     - name: Install inno setup package via chocolatey
       run: choco install innosetup
 
