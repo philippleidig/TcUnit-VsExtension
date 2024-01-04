@@ -32,7 +32,7 @@ jobs:
         msbuild: 'true'
 
     - name: Format *.cs files
-      run: 
+      run: |
           dotnet tool restore
           dotnet format --fix-style --fix-analyzers
           dotnet csharpier --check .
