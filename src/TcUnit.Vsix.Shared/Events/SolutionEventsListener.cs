@@ -25,12 +25,16 @@ namespace TcUnit.VisualStudio.EventWatchers
         [ImportingConstructor]
         public SolutionEventsListener([Import(typeof(SVsServiceProvider))]IServiceProvider serviceProvider)
         {
-            this.solution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
+			ThreadHelper.ThrowIfNotOnUIThread();
+
+			this.solution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
         }
 
         public void StartListeningForChanges()
         {
-            if (this.solution != null)
+			ThreadHelper.ThrowIfNotOnUIThread();
+
+			if (this.solution != null)
             {
                 int hr = this.solution.AdviseSolutionEvents(this, out cookie);
                 ErrorHandler.ThrowOnFailure(hr); // do nothing if this fails
@@ -39,7 +43,9 @@ namespace TcUnit.VisualStudio.EventWatchers
 
         public void StopListeningForChanges()
         {
-            if (this.cookie != VSConstants.VSCOOKIE_NIL && this.solution != null)
+			ThreadHelper.ThrowIfNotOnUIThread();
+
+			if (this.cookie != VSConstants.VSCOOKIE_NIL && this.solution != null)
             {
                 int hr = this.solution.UnadviseSolutionEvents(cookie);
                 ErrorHandler.Succeeded(hr); // do nothing if this fails
@@ -71,7 +77,9 @@ namespace TcUnit.VisualStudio.EventWatchers
         /// </summary>
         public int OnAfterLoadProject(IVsHierarchy pStubHierarchy, IVsHierarchy pRealHierarchy)
         {
-            var project = pRealHierarchy as IVsProject;
+			ThreadHelper.ThrowIfNotOnUIThread();
+
+			var project = pRealHierarchy as IVsProject;
             OnSolutionProjectUpdated(project, SolutionChangedReason.Load);
             return VSConstants.S_OK;
         }
@@ -81,7 +89,9 @@ namespace TcUnit.VisualStudio.EventWatchers
         /// </summary>
         public int OnBeforeUnloadProject(IVsHierarchy pRealHierarchy, IVsHierarchy pStubHierarchy)
         {
-            var project = pRealHierarchy as IVsProject;
+			ThreadHelper.ThrowIfNotOnUIThread();
+
+			var project = pRealHierarchy as IVsProject;
             OnSolutionProjectUpdated(project, SolutionChangedReason.Unload);
             return VSConstants.S_OK;
         }

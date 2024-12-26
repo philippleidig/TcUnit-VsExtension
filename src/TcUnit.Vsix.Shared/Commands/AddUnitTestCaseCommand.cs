@@ -25,6 +25,8 @@ namespace TcUnit.VisualStudio.Commands
 
 		protected override void BeforeQueryStatus(EventArgs e)
 		{
+			ThreadHelper.ThrowIfNotOnUIThread();
+
 			Command.Visible = false;
 			var dte = VS.GetRequiredService<DTE, DTE>();
 			ProjectItem selectedItem = dte.SelectedItems?.Item(1)?.ProjectItem;
@@ -47,7 +49,9 @@ namespace TcUnit.VisualStudio.Commands
 
 		protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)
 		{
-			var dte = VS.GetRequiredService<DTE, DTE>();
+			await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+
+			var dte = await VS.GetRequiredServiceAsync<DTE, DTE>();
 			ProjectItem selectedItem = dte.SelectedItems.Item(1).ProjectItem;
             
             if (!(selectedItem.Object is ITcSmTreeItem treeItem))

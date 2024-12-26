@@ -12,6 +12,8 @@ namespace TcUnit.VisualStudio
 	{
 		public static IEnumerable<IVsHierarchy> EnumerateLoadedProjects(this IVsSolution solution, __VSENUMPROJFLAGS enumFlags)
 		{
+			Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
+
 			var prjType = Guid.Empty;
 			IEnumHierarchies ppHier;
 
@@ -29,6 +31,8 @@ namespace TcUnit.VisualStudio
 
 		public static string GetProjectPath(IVsProject project)
 		{
+			Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
+
 			string projectPath;
 			project.GetMkDocument(VSConstants.VSITEMID_ROOT, out projectPath);
 			return projectPath;
@@ -36,8 +40,10 @@ namespace TcUnit.VisualStudio
 
 		public static IEnumerable<string> GetProjectItems(IVsProject project)
 		{
+			Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
+
 			// Each item in VS OM is IVSHierarchy. 
-			var hierarchy = (IVsHierarchy)project;
+			var hierarchy = project as IVsHierarchy;
 			return GetProjectItems(hierarchy, VSConstants.VSITEMID_ROOT);
 		}
 
@@ -92,6 +98,8 @@ namespace TcUnit.VisualStudio
 
 		public static object GetPropertyValue(int propid, uint itemId, IVsHierarchy vsHierarchy)
 		{
+			Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
+
 			if (itemId == VSConstants.VSITEMID_NIL)
 			{
 				return null;
@@ -120,6 +128,8 @@ namespace TcUnit.VisualStudio
 
 		public static string GetCanonicalName(uint itemId, IVsHierarchy hierarchy)
 		{
+			Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
+
 			string strRet = string.Empty;
 			int hr = hierarchy.GetCanonicalName(itemId, out strRet);
 

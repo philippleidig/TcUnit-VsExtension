@@ -25,6 +25,8 @@ namespace TcUnit.VisualStudio.Commands
 
 		protected override void BeforeQueryStatus(EventArgs e)
 		{
+			ThreadHelper.ThrowIfNotOnUIThread();
+
 			Command.Visible = false;
 			var dte = VS.GetRequiredService<DTE, DTE>();
 			ProjectItem selectedItem = dte?.SelectedItems?.Item(1)?.ProjectItem;
@@ -33,7 +35,9 @@ namespace TcUnit.VisualStudio.Commands
 
         private bool CanAddTcUnitTestSuite (ProjectItem item)
         {
-            if (item == null)
+			ThreadHelper.ThrowIfNotOnUIThread();
+
+			if (item == null)
 				return false;
 
 			if (!item.IsTwinCATTreeItem())
@@ -45,7 +49,9 @@ namespace TcUnit.VisualStudio.Commands
 
 		protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)
         {
-			var dte = VS.GetRequiredService<DTE, DTE>();
+			await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+
+			var dte = await VS.GetRequiredServiceAsync<DTE, DTE>();
 			ProjectItem selectedItem = dte.SelectedItems.Item(1).ProjectItem;
 
             EnvDTE.Project plcProject = selectedItem.ContainingProject;

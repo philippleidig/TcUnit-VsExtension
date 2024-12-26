@@ -20,12 +20,16 @@ namespace TcUnit.VisualStudio.EventWatchers
         [ImportingConstructor]
         public TestFileAddRemoveListener([Import(typeof(SVsServiceProvider))] IServiceProvider serviceProvider)
         {
-            projectDocTracker = serviceProvider.GetService(typeof(SVsTrackProjectDocuments)) as IVsTrackProjectDocuments2;
+			ThreadHelper.ThrowIfNotOnUIThread();
+
+			projectDocTracker = serviceProvider.GetService(typeof(SVsTrackProjectDocuments)) as IVsTrackProjectDocuments2;
         }
 
         public void StartListeningForTestFileChanges()
         {
-            if (projectDocTracker != null)
+			ThreadHelper.ThrowIfNotOnUIThread();
+
+			if (projectDocTracker != null)
             {
                 int hr = projectDocTracker.AdviseTrackProjectDocumentsEvents(this, out cookie);
                 ErrorHandler.ThrowOnFailure(hr); // do nothing if this fails
@@ -34,7 +38,9 @@ namespace TcUnit.VisualStudio.EventWatchers
 
         public void StopListeningForTestFileChanges()
         {
-            if (cookie != VSConstants.VSCOOKIE_NIL && projectDocTracker != null)
+			ThreadHelper.ThrowIfNotOnUIThread();
+
+			if (cookie != VSConstants.VSCOOKIE_NIL && projectDocTracker != null)
             {
                 int hr = projectDocTracker.UnadviseTrackProjectDocumentsEvents(cookie);
                 ErrorHandler.Succeeded(hr); // do nothing if this fails

@@ -42,7 +42,9 @@ namespace TcUnit.VisualStudio.TestWindow
             ITestFilesUpdateWatcher testFilesUpdateWatcher,
             ITestFileAddRemoveListener testFilesAddRemoveListener)
         {
-            initialContainerSearch = true;
+			ThreadHelper.ThrowIfNotOnUIThread();
+
+			initialContainerSearch = true;
             cachedContainers = new List<ITestContainer>();
             this.serviceProvider = serviceProvider;
             this.logger = logger;
@@ -174,7 +176,9 @@ namespace TcUnit.VisualStudio.TestWindow
 
         private IEnumerable<string> GetTwinCATProjectFiles()
         {
-            var solution = (IVsSolution)serviceProvider.GetService(typeof(SVsSolution));
+			ThreadHelper.ThrowIfNotOnUIThread();
+
+			var solution = (IVsSolution)serviceProvider.GetService(typeof(SVsSolution));
             var loadedProjects = solution.EnumerateLoadedProjects(__VSENUMPROJFLAGS.EPF_LOADEDINSOLUTION).OfType<IVsProject>();
 
             return loadedProjects.Select(VsSolutionExtensions.GetProjectPath)
