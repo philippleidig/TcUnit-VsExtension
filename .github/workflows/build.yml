@@ -25,7 +25,7 @@ jobs:
     - uses: actions/checkout@v3
   
     - name: Setup .NET build dependencies
-      uses: timheuer/bootstrap-dotnet@v1
+      uses: timheuer/bootstrap-dotnet@v2
       with:
         nuget: 'false'
         sdk: 'false'
@@ -39,14 +39,14 @@ jobs:
 
     - name: Increment VSIX version 15
       id: vsix_version_15
-      uses: timheuer/vsix-version-stamp@v1
+      uses: timheuer/vsix-version-stamp@v2
       with:
         manifest-file: ${{ env.Vsix15ManifestPath }}
         vsix-token-source-file: ${{ env.Vsix15ManifestSourcePath }}
 
     - name: Increment VSIX version 17
       id: vsix_version_17
-      uses: timheuer/vsix-version-stamp@v1
+      uses: timheuer/vsix-version-stamp@v2
       with:
         manifest-file: ${{ env.Vsix17ManifestPath }}
         vsix-token-source-file: ${{ env.Vsix17ManifestSourcePath }}
