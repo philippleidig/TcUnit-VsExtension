@@ -61,7 +61,7 @@ jobs:
       run: iscc.exe setup\TcUnit.iss
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: TcUnit_${{ steps.vsix_version_15.outputs.version-number }}.exe
         path: dist/*.exe
