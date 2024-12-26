@@ -38,8 +38,7 @@ To install the TcUnit Visual Studio Extension, follow these steps:
 ## Visual Studio Test Explorer Support
 
 > [!NOTE]  
-> VS Test Explorer currently not supported due to open issue
-> see [TcUnit #218](https://github.com/tcunit/TcUnit/issues/218) for more information
+> VS Test Explorer currently not supported
 
 ![vs-test-explorer](/assets/images/vs-test-explorer.png)
 
