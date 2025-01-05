@@ -6,6 +6,7 @@ using TcUnit;
 
 [assembly: AssemblyTitle(Vsix.Name)]
 [assembly: AssemblyVersion(Vsix.Version)]
+[assembly: AssemblyFileVersion(Vsix.Version)]
 [assembly: AssemblyDescription(Vsix.Description)]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany(Vsix.Author)]
