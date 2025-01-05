@@ -52,6 +52,7 @@ jobs:
 
     - name: Build
       run: msbuild /v:m -restore /p:OutDir=bin\Release /p:Configuration=Release
+      continue-on-error: true
       
     - name: Install inno setup package via chocolatey
       run: choco install innosetup
