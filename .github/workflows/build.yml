@@ -1,5 +1,8 @@
 name: "Build"
 
+permissions: 
+  actions: write
+
 on:
   push:
     branches: [main]
