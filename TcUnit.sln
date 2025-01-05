@@ -14,6 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		.github\workflows\build.yml = .github\workflows\build.yml
 		LICENSE.md = LICENSE.md
 		README.md = README.md
+		setup\TcUnit.iss = setup\TcUnit.iss
 	EndProjectSection
 EndProject
 Global
