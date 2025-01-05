@@ -11,6 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TcUnit.Vsix.15", "src\TcUni
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{48516E58-37EA-465C-9DEC-02360682E586}"
 	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build.yml = .github\workflows\build.yml
 		LICENSE.md = LICENSE.md
 		README.md = README.md
 	EndProjectSection

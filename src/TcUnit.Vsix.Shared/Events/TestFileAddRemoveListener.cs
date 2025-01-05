@@ -55,11 +55,13 @@ namespace TcUnit.VisualStudio.EventWatchers
                                               int[] rgFirstIndices,
                                               TestFileChangedReason reason)
         {
-            // The way these parameters work is:
-            // rgFirstIndices contains a list of the starting index into the changeProjectItems array for each project listed in the changedProjects list
-            // Example: if you get two projects, then rgFirstIndices should have two elements, the first element is probably zero since rgFirstIndices would start at zero.
-            // Then item two in the rgFirstIndices array is where in the changeProjectItems list that the second project's changed items reside.
-            int projItemIndex = 0;
+			ThreadHelper.ThrowIfNotOnUIThread();
+
+			// The way these parameters work is:
+			// rgFirstIndices contains a list of the starting index into the changeProjectItems array for each project listed in the changedProjects list
+			// Example: if you get two projects, then rgFirstIndices should have two elements, the first element is probably zero since rgFirstIndices would start at zero.
+			// Then item two in the rgFirstIndices array is where in the changeProjectItems list that the second project's changed items reside.
+			int projItemIndex = 0;
             for (int changeProjIndex = 0; changeProjIndex < changedProjectCount; changeProjIndex++)
             {
                 int endProjectIndex = ((changeProjIndex + 1) == changedProjectCount) ? changedProjectItems.Length : rgFirstIndices[changeProjIndex + 1];

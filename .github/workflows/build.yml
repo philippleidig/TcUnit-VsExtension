@@ -6,7 +6,6 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
-    branches: [main]
       
 jobs:
   build:
@@ -27,8 +26,8 @@ jobs:
     - name: Setup .NET build dependencies
       uses: timheuer/bootstrap-dotnet@v2
       with:
-        nuget: 'false'
-        sdk: 'false'
+        nuget: 'true'
+        sdk: 'true'
         msbuild: 'true'
 
     - name: Format *.cs files
@@ -52,7 +51,7 @@ jobs:
         vsix-token-source-file: ${{ env.Vsix17ManifestSourcePath }}
 
     - name: Build
-      run: msbuild /v:m -restore /p:OutDir=bin\Release
+      run: msbuild /v:m -restore /p:OutDir=bin\Release /p:Configuration=Release
       
     - name: Install inno setup package via chocolatey
       run: choco install innosetup

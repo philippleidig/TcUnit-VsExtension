@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
 namespace TcUnit.VisualStudio
@@ -49,6 +50,7 @@ namespace TcUnit.VisualStudio
 
 		public static IEnumerable<string> GetProjectItems(IVsHierarchy project, uint itemId)
 		{
+			ThreadHelper.ThrowIfNotOnUIThread();
 
 			// Don't enumerate over nodes that have side effects
 			// This is to prevent errors that could occur since the side affect code can do things like try to
