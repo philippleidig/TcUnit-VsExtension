@@ -26,14 +26,13 @@ jobs:
     - name: Setup .NET build dependencies
       uses: timheuer/bootstrap-dotnet@v2
       with:
-        nuget: 'true'
-        sdk: 'true'
+        nuget: 'false'
+        sdk: 'false'
         msbuild: 'true'
 
     - name: Format *.cs files
       run: |
           dotnet tool restore
-          dotnet format
           dotnet csharpier .
 
     - name: Increment VSIX version 15
@@ -68,6 +67,7 @@ jobs:
   publish:
     if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
     needs: build
+    name: Publish 
     runs-on: windows-latest
 
     steps:
