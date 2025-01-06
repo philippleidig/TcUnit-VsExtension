@@ -36,22 +36,16 @@ jobs:
         msbuild: 'true'
 
     - name: Install dotnet versionize
-      run: dotnet tool install -g dotnet-versionize
+      run: dotnet tool install --g Versionize
 
     - name: Versionize with pre-release suffix
       id: vsix_version
       run: |
         if [ "${{ github.ref }}" == "refs/heads/main" ]; then
-          dotnet versionize 
+          versionize --changelog-all
         elif [ "${{ github.ref }}" == "refs/heads/develop" ]; then
-          dotnet versionize --pre-release-suffix "beta"
+          versionize --changelog-all --pre-release-suffix "beta"
         fi
-      env:
-        DOTNET_ROOT: ${{ steps.setup-dotnet.outputs.dotnet-root }}
-
-    - name: Echo version from versionize
-      id: version
-      run: echo "VERSION=$(dotnet list package --outdated | grep 'PackageReference' | tail -n 1 | awk '{print $2}')" >> $GITHUB_ENV
 
     - name: Format *.cs files
       run: |
@@ -64,7 +58,6 @@ jobs:
       with:
         manifest-file: ${{ env.Vsix15ManifestPath }}
         vsix-token-source-file: ${{ env.Vsix15ManifestSourcePath }}
-        version-number: ${{ env.VERSION }}
 
     - name: Increment VSIX version 17
       id: vsix_version_17
@@ -72,7 +65,6 @@ jobs:
       with:
         manifest-file: ${{ env.Vsix17ManifestPath }}
         vsix-token-source-file: ${{ env.Vsix17ManifestSourcePath }}
-        version-number: ${{ env.VERSION }}
 
     - name: Build
       run: msbuild /v:m -restore /p:OutDir=bin\Release /p:Configuration=Release /p:DeployExtension=false /p:ZipPackageCompressionLevel=normal
