@@ -1,12 +1,8 @@
-﻿using Microsoft.VisualStudio.Shell;
-using System.Reflection;
-using System.Runtime.CompilerServices;
+﻿using System.Reflection;
 using System.Runtime.InteropServices;
 using TcUnit;
 
 [assembly: AssemblyTitle(Vsix.Name)]
-[assembly: AssemblyVersion(Vsix.Version)]
-[assembly: AssemblyFileVersion(Vsix.Version)]
 [assembly: AssemblyDescription(Vsix.Description)]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany(Vsix.Author)]
@@ -17,4 +13,5 @@ using TcUnit;
 
 [assembly: ComVisible(false)]
 
-
+[assembly: AssemblyVersion(Vsix.Version)]
+[assembly: AssemblyFileVersion(Vsix.Version)]
