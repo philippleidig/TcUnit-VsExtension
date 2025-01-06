@@ -31,8 +31,8 @@ jobs:
     - name: Setup .NET build dependencies
       uses: timheuer/bootstrap-dotnet@v2
       with:
-        nuget: 'false'
-        sdk: 'false'
+        nuget: 'true'
+        sdk: 'true'
         msbuild: 'true'
 
     - name: Install dotnet versionize
