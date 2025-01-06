@@ -34,7 +34,7 @@ WizardSmallImageFile=..\assets\TcUnit.bmp
 SetupLogging=yes
 
 [Files]
-Source: "..\templates\TcUnit_Basic_RunInSequence\*"; DestDir: "{{TcPlcTemplatesFolder}}TcUnit"; Flags: ignoreversion recursesubdirs createallsubdirs;
+Source: "..\templates\TcUnit_Basic_RunInSequence\*"; DestDir: "{#TcPlcTemplatesFolder}TcUnit"; Flags: ignoreversion recursesubdirs createallsubdirs;
 Source: "..\src\TcUnit.Vsix.15\bin\Release\Package\*"; DestDir: "{#TcXaeShellExtensionsFolder15}TcUnit"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: InstallVsixInTcXaeShell15;
 Source: "..\src\TcUnit.Vsix.17\bin\Release\Package\*"; DestDir: "{#TcXaeShellExtensionsFolder17}TcUnit"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: InstallVsixInTcXaeShell17;
 Source: "..\src\TcUnit.Vsix.15\bin\Release\TcUnit.Vsix.15.vsix"; DestDir: "{tmp}"; Flags: deleteafterinstall;
@@ -98,9 +98,6 @@ end;
 
 var
   VisualStudioOptionsPage: TInputOptionWizardPage;
-
-  OutputFile: string;
-  OutputData: AnsiString;
   ErrorCode: integer;
   i : integer; 
   VsWhereOutput15 : string;
@@ -259,7 +256,6 @@ end;
 procedure InitializeUninstallProgressForm();
 var
   UninstallText: TNewStaticText;
-  UserPageOpenDiscussionText: TNewStaticText;
   PageNameLabel: string;
   PageDescriptionLabel: string;
   CancelButtonEnabled: Boolean;
