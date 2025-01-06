@@ -11,7 +11,7 @@ namespace TcUnit
         public const string Name = "TcUnit VS2017 VS2019";
         public const string Description = @"TcUnit is an xUnit type of framework specifically done for Beckhoff’s TwinCAT 3 development environment. It consists of a single library that is easily integrated into any existing TwinCAT 3 project. For details see https://tcunit.org/";
         public const string Language = "en-US";
-        public const string Version = "0.2.0";
+        public const string Version = "0.3.0";
         public const string Author = "Philipp Leidig";
         public const string Tags = "beckhoff twincat tcunit iec61131-3";
     }

@@ -31,26 +31,9 @@ jobs:
     - name: Setup .NET build dependencies
       uses: timheuer/bootstrap-dotnet@v2
       with:
-        nuget: 'true'
-        sdk: 'true'
+        nuget: 'false'
+        sdk: 'false'
         msbuild: 'true'
-
-    - name: Install dotnet versionize
-      run: dotnet tool install -g versionize
-
-    - name: Run versionize on main
-      if: github.ref == 'refs/heads/main'
-      run: |
-        VERSION=$(versionize --changelog-all 2>&1 | grep 'Version updated to' | awk '{print $4}')
-        echo "VERSION=$VERSION" >> $GITHUB_ENV
-
-    - name: Run versionize on develop with --pre-release
-      if: github.ref == 'refs/heads/develop'
-      run: |
-        echo "Running versionize --pre-release on branch develop"
-        versionize --pre-release
-        VERSION=$(versionize --changelog-all --pre-release-suffix "beta" 2>&1 | grep 'Version updated to' | awk '{print $4}')
-        echo "VERSION=$VERSION" >> $GITHUB_ENV
 
     - name: Format *.cs files
       run: |

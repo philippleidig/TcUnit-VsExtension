@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="cfe9289a-39cb-4a97-be31-61d2e9763163" Version="0.2.0" Language="en-US" Publisher="Philipp Leidig" />
+        <Identity Id="cfe9289a-39cb-4a97-be31-61d2e9763163" Version="0.3.0" Language="en-US" Publisher="Philipp Leidig" />
         <DisplayName>TcUnit VS2022</DisplayName>
         <Description xml:space="preserve">TcUnit is an xUnit type of framework specifically done for Beckhoff’s TwinCAT 3 development environment. It consists of a single library that is easily integrated into any existing TwinCAT 3 project. For details see https://tcunit.org/</Description>
         <MoreInfo>https://www.tcunit.org/</MoreInfo>
