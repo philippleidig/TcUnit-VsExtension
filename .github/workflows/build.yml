@@ -36,7 +36,7 @@ jobs:
         msbuild: 'true'
 
     - name: Install dotnet versionize
-      run: dotnet tool install --g Versionize
+      run: dotnet tool install --g versionize
 
     - name: Versionize with pre-release suffix
       id: vsix_version
