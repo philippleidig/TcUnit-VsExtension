@@ -38,14 +38,19 @@ jobs:
     - name: Install dotnet versionize
       run: dotnet tool install -g versionize
 
-    - name: Versionize with pre-release suffix
-      id: vsix_version
+    - name: Run versionize on main
+      if: github.ref == 'refs/heads/main'
       run: |
-        if [ "${{ github.ref }}" == "refs/heads/main" ]; then
-          versionize --changelog-all
-        elif [ "${{ github.ref }}" == "refs/heads/develop" ]; then
-          versionize --changelog-all --pre-release-suffix "beta"
-        fi
+        VERSION=$(versionize --changelog-all 2>&1 | grep 'Version updated to' | awk '{print $4}')
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+    - name: Run versionize on develop with --pre-release
+      if: github.ref == 'refs/heads/develop'
+      run: |
+        echo "Running versionize --pre-release on branch develop"
+        versionize --pre-release
+        VERSION=$(versionize --changelog-all --pre-release-suffix "beta" 2>&1 | grep 'Version updated to' | awk '{print $4}')
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
 
     - name: Format *.cs files
       run: |
